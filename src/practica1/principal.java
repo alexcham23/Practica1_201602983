@@ -2,7 +2,7 @@
 package practica1;
 import java.util.Random;
 import java.util.Scanner;
-import static practica1.principal.tabla1;
+
 
 /**
  *
@@ -10,13 +10,42 @@ import static practica1.principal.tabla1;
  */
 public class principal {
     
-    public static int bombas = 0;
     public static char [][] tabla =new char[9][9] ;
     public static char [][] tabla1=new char[9][9] ;
+    public static int bombas = 0;
     public static int fila=0;
     public static int columna=0;
+    public static boolean bug = false;
+    public static boolean fivalid=false;
+    public static boolean dir=false;
     public static int i=0,j=0,T=0,T1=0,ganador=0,contar=0;
-    public static void main(String[] args) {
+   
+    public static void main(String[] args){
+        while (!dir){
+            contar=0;
+            fivalid=false;
+            intro();
+            tablero();
+            ver_tabla(fila, columna,tabla1);
+            System.out.println("");
+            ctrl();
+            bombas();
+            contar_bombas();
+            voltear(T,T1);
+            while(!fivalid){
+                if(bug){
+                    ver_tabla(fila, columna,tabla1);
+                    System.out.println("");
+                    }
+                        ver_tabla(fila, columna,tabla1);
+                        System.out.println("");
+                        recibir();
+            }
+        }
+    }
+    
+    
+    public static void intro() {
          
         String ir_menu;
         Scanner salto = new Scanner(System.in);
@@ -46,55 +75,53 @@ switch(opcion){
     case 1:
         fila = 4;
         columna =4;
-        bombas=(4*4)-4;
+        bombas=4;
+        ganador=(4*4)-4;
         System.out.println("Nivel Principiante");
-        tablero();
-        ver_tabla(fila,columna,tabla);
-        ctrl();
-        bombas();
-        contar_bombas();
-        System.out.println("");
-        voltear(T,T1);
+                
         break;
         
     case 2:
         fila = 6;
         columna =6;
+        ganador=(6*6)-6;
         System.out.println("Nivel Intermedio");
-        tablero();
-        ver_tabla(fila,columna,tabla);
-        inicio();
+        
         break;
     case 3:
         fila = 8;
         columna =8;
+        ganador=(8*8)-8;
         System.out.println("Nivel Avanzado");
-        tablero();
-        ver_tabla(fila,columna,tabla);        
-        inicio();
         break;
     case 4:
+        System.exit(0);
         break;
     default://permite avisarle al usuario que que solo puede utilizar cierto rango para elegir  
-    System.out.println("Solo números entre 1 y 3");    
+    System.out.println("Solo números entre 1 y 4");    
     }   
   
     }
      //inicion de tablero
     public static void tablero (){
-        for (i=0;i< fila;i++){
-            for(j=0; j<columna;j++){
-                tabla[i][j]='x';
+        for (int x=0;x< fila;x++){
+            for(int y=0; y<columna;y++){
+                tabla[x][y]='x';
             }
+            
         }
-                    
+        for (int a =0; a<fila;a++){
+            for(int b=0;b<columna;b++){
+                tabla[a][b]='*';
+            }
+        }            
     }
     //impresion de tablaro en la consola
    public static void ver_tabla(int size, int size1, char[][]tabla){
        System.out.println();
-       for (int a = 0; a < size; a++) {
-               for (int b = 0; b < size1; b++) {
-                System.out.printf("[" + tabla[a][b] + "]");
+       for (int i = 0; i< size1; i++) {
+               for (int j = 0; j < size1; j++) {
+                System.out.printf("[" + tabla[i][j] + "]");
             }
             if (i == size - 1) {
                 System.out.println("");
@@ -119,7 +146,27 @@ switch(opcion){
                                 
 		System.out.println("Ingrese opcion: ");
 		return scan.next();
-	}
+}
+    public static void recibir (){
+    String opcion="";
+        opcion=inicio();
+    switch(opcion){
+        case "v":
+            ctrl();
+            voltear(T,T1);
+            break;
+        case "r":
+            break;
+        case "s":
+            System.exit(0);
+            break;
+        default:
+        System.out.println("Tiene que iniciar un juego");
+        break;
+    }
+    }
+    
+    
     //---------------------------------------------------------------------
     //@utilizando el ramdom para poder destribuir las bombas en el juego.
     public static void bombas(){
@@ -146,20 +193,19 @@ switch(opcion){
     //analizar cuantas bombas hay en cada nivel
     public static void contar_bombas (){
         int contar=0;
-            for(int m=1;m<=tabla[0].length - 1 ;++m){
-                for(int n=1; n<=tabla[0].length - 1;++n){
+            for(int m=2;m<=tabla.length - 2 ;++m){
+                for(int n=2; n<=tabla[0].length - 2;++n){
                 contar=0;
-                if ((tabla[m+1][n+1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m-1][n-1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m-1][n+1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m+1][n-1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m-1][n-1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m+1][n]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m][n+1]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m-1][n]=='*')&&(tabla[m][n]=='*')){++contar;}
-                if ((tabla[m][n-1]=='*')&&(tabla[m][n]=='*')){++contar;}
+                if ((tabla[m+1][n+1]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m-1][n-1]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m-1][n+1]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m+1][n-1]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m+1][n]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m][n+1]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m-1][n]=='*')&&(tabla[m][n]=='x')){++contar;}
+                if ((tabla[m][n-1]=='*')&&(tabla[m][n]=='x')){++contar;}
                 
-                if(tabla[m][n]=='*'){
+                if(tabla[m][n]=='x'){
                     if(contar>0){
                         tabla[m][n]=Integer.toString(contar).charAt(0);
                     }else if(contar==0){
@@ -169,7 +215,7 @@ switch(opcion){
             }
         for(int i =0;i<fila;i++){
                 for(int j =0;j<columna;j++){
-                    if(tabla[i][j]=='*'){
+                    if(tabla[i][j]=='x'){
                     tabla[i][j]= Integer.toString(0).charAt(0);
                 }
             
@@ -193,7 +239,7 @@ switch(opcion){
         }
     }
     private static void voltear(int f,int f1){
-        boolean valid=false;
+        
         int filas= T;
         int colmnas=T1;
         if(f<fila + 1||f<0|| f1<columna + 1||f1<0 ){
@@ -215,10 +261,10 @@ switch(opcion){
         }
         if(contar==ganador){
             System.out.println("Victoria!!!");
-            valid=true;
+            fivalid=true;
         }else{
             if(tabla[f][f1]=='*'){
-                valid=true;
+                fivalid=true;
                 System.out.println("BooOOOOM!!! Has Perdido Intentalo de Nuevo");
             }
         }
