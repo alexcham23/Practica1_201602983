@@ -106,27 +106,27 @@ switch(opcion){
     public static void tablero (){
         for (int x=0;x< fila;x++){
             for(int y=0; y<columna;y++){
-                tabla[x][y]='x';
+                tabla1[x][y]='x';
             }
             
         }
-        for (int a =0; a<fila;a++){
-            for(int b=0;b<columna;b++){
-                tabla[a][b]='*';
+        for (int x =0; x<fila;x++){
+            for(int y=0;y<columna;y++){
+                tabla[x][y]='*';
             }
         }            
     }
     //impresion de tablaro en la consola
    public static void ver_tabla(int size, int size1, char[][]tabla){
        System.out.println();
-       for (int i = 0; i< size1; i++) {
-               for (int j = 0; j < size1; j++) {
+       for (int i = 1; i< size; i++) {
+               for (int j = 1; j < size1; j++) {
                 System.out.printf("[" + tabla[i][j] + "]");
             }
             if (i == size - 1) {
                 System.out.println("");
-                for (int j = 0; j < columna; j++) {
-                    if (j == 0) {
+                for (int j = 1; j < columna; j++) {
+                    if (j == 1) {
                         System.out.print("");
                     }
                     System.out.printf("");
@@ -170,18 +170,18 @@ switch(opcion){
     //---------------------------------------------------------------------
     //@utilizando el ramdom para poder destribuir las bombas en el juego.
     public static void bombas(){
-        boolean full=true;
+        boolean full=false;
         int k=0;
         out:
         while(k<=bombas){
-            for (int i=0;i< fila; i++ ){
-                for(int j=0;j<columna;j++ ){
+            for (int i=1;i< fila; i++ ){
+                for(int j=1;j<columna;j++ ){
                     bombas=(int) (Math.random()*10)+1;
                     if((i==bombas) && (tabla[i][j]=='*') &&(i!=T && j!=T1)){
                         tabla[i][j]='*';
-                        ++i;
+                        ++k;
                     }else{
-                       if(i==bombas){
+                       if(k==bombas){
                            break out;
                        }
                            
