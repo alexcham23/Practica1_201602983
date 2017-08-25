@@ -9,9 +9,9 @@ import java.util.Scanner;
  * @author byron
  */
 public class principal {
-   
-   public static char[][] tabla = new char[17][31];
-    public static char[][] tabla2 = new char[17][31];
+    
+   public static char[][] tabla = new char[9][9];
+    public static char[][] tabla2 = new char[9][9];
     public static int fila = 0;
     public static int columna = 0;
     public static int bombas = 0;
@@ -22,9 +22,9 @@ public class principal {
     public static boolean debug = false;
     public static int contador = 0;
     public static boolean ciclo = false;
-    Scanner data = new Scanner(System.in);
-     String  check;
+   
     public static void main(String[] args){
+        int contador=0;
         intro();
         while (!ciclo){
             contador=0;
@@ -32,7 +32,7 @@ public class principal {
             tablero();
             ver_tabla(fila, columna,tabla2);
             System.out.println("");
-            ctrl();
+            recibir();
             bombas();
             contar_bombas();
             recursivvoltear(xc,yc);
@@ -63,6 +63,7 @@ public class principal {
     
     }
      public static void menu(){ 
+         
        int opcion;
  Scanner opc = new Scanner(System.in);
  
@@ -74,6 +75,7 @@ public class principal {
         System.out.println("     4.Salir          ");
 
 System.out.println("Ingrese Opcion");
+ 
 opcion = opc.nextInt(); 
         System.out.println("-----------------------");
 switch(opcion){
@@ -81,22 +83,24 @@ switch(opcion){
         fila = 5;
         columna =5;
         bombas=4;
-        ganador=(5*5)-5;
+        ganador=12;
         System.out.println("Nivel Principiante");
                 
         break;
         
     case 2:
-        fila = 6;
-        columna =6;
-        ganador=(6*6)-6;
+        fila = 7;
+        columna =7;
+        bombas=8;
+        ganador=28;
         System.out.println("Nivel Intermedio");
         
         break;
     case 3:
-        fila = 8;
-        columna =8;
-        ganador=(8*8)-8;
+        fila = 9;
+        columna =9;
+        bombas=12;
+        ganador=52;
         System.out.println("Nivel Avanzado");
         break;
     case 4:
@@ -120,10 +124,12 @@ switch(opcion){
             }
         }
     }
-    //impresion de tablaro en la consola
+    //impresion de tablero en la consola
+    //length y length0 es el tamaño de la matriz
    public static void ver_tabla(int length, int length0, char[][]tabla){
        for (int i = 1; i < length; i++) {
             if (i == 1) {
+                System.out.println("");
                 System.out.println("---------------------------------");
             }
             System.out.printf("");
@@ -144,32 +150,45 @@ switch(opcion){
     }
   
     public static String inicio(){
+                
 		Scanner scan =new Scanner (System.in);
                 System.out.println("---------------------------");
+                System.out.println("  Menu   ");
 		System.out.println("Voltear: v");
 		System.out.println("Reiniciar:r");
 		System.out.println("salir:s"); 
-                
-                                
+                                              
 		System.out.println("Ingrese opcion: ");
 		return scan.next();
 }
+    
+    String conf, sel;
     public static void recibir (){
+        
+    
+
     String opcion="";
         opcion=inicio();
+        try{
     switch(opcion){
         case "v":
-            ctrl();
+            ctrl2();
             break;
         case "r":
-            break;
+            System.out.print("\n");
+                        
+            menu();    
+	    break;
         case "s":
-            System.exit(0);
+        intro();
             break;
         default:
-        System.out.println("Tiene que iniciar un juego");
+        System.out.println("***REALIZASTE UNA MALA ELECCION INTENTA DE NUEVO***");
         break;
-    }
+            }
+        }catch (Exception v){
+            System.out.println("");
+        }
     }
     
     
@@ -194,46 +213,57 @@ switch(opcion){
             }
         }
     }
+    public static void solucionario (){
+         System.out.println("-----------------");
+               System.out.println(" Solucionario!!!\n");
+               for(int a=0;a<fila;a++){
+                   System.out.println("");
+                 for(int b=0;b<columna;b++){
+                   System.out.print("[  "+tabla[a][b]+"  ]");
+            }
+        }
+    }
+    //esto nos permite de forma aleatoria las bombas del juego
      public static int aleatorio(int limite){
      Random cart=new Random();
      int vol=(int)(Math.random()*limite);
      return vol;
     }
-    //analizar cuantas bombas hay en cada nivel
+    //analizar cuantas bombas hay en cada nivel(culumna y fila)
     public static void contar_bombas (){
-        int count = 0;
+        int contador = 0;
         for (int m = 2; m <= tabla.length - 2; ++m) {
             for (int n = 2; n <= tabla[0].length - 2; ++n) {
-                count = 0;
+                contador = 0;
                 if ((tabla[m + 1][n + 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m - 1][n - 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m - 1][n + 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m + 1][n - 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m - 1][n] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m + 1][n] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m][n + 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if ((tabla[m][n - 1] == '*') && (tabla[m][n] == 'x')) {
-                    ++count;
+                    contador++;
                 }
                 if (tabla[m][n] == 'x') {
-                    if (count > 0) {
-                        tabla[m][n] = Integer.toString(count).charAt(0);
-                    } else if (count == 0) {
-                        tabla[m][n] = Integer.toString(count).charAt(0);
+                    if (contador > 0) {
+                        tabla[m][n] = Integer.toString(contador).charAt(0);
+                    } else if (contador == 0) {
+                        tabla[m][n] = Integer.toString(contador).charAt(0);
                     }
                 }
             }
@@ -246,22 +276,54 @@ switch(opcion){
             }
         }
 }
-   
-    public static void ctrl(){
-       Scanner sc = new Scanner(System.in);
-        boolean valid = false;
+   public static void ctrl2(){///aqui es donde estaba intentado hacer eso del x,y
+       Scanner scan = new Scanner(System.in);
+       String confirmacion = null, seleccion;
+            
+               boolean valid = false;
         while (!valid) {
-            System.out.println("Introduce tu movimiento!");
-            seleccion=data.nextLine();
-            seleccion.replaceAll(" " , "");
-            if ((xc < fila && yc < columna) && (xc > 0 && yc > 0)) {
+            System.out.println("  ingrese numero (n,m)  entre 1 y "+fila+" ");
+               seleccion=scan.nextLine();
+               seleccion.replaceAll(" " , " ");
+              
+               xc=Integer.parseInt(""+seleccion.charAt(0));
+              yc=Integer.parseInt(""+seleccion.charAt(seleccion.length()-1));
+              
+               xc--;
+               yc--;
+               System.out.println(""+(xc++)+","+(yc++)+" ?");//en esta parte aparecera otra coordenada un pequeño erro que no pude areglar
+               if ((xc <=fila && yc <= columna) && (xc > 0 && yc > 0)) {
                 valid = true;
             } else {
                 valid = false;
             }
         }
+               
+               }
+   //crtl esto nos servira para ver en que fila y columna queremos voltear pero es con el metodo pi de fila y columana
+    public static void ctrl(){
+       Scanner sc = new Scanner(System.in);
+        boolean valid = false;
+        try{
+        while (!valid) {
+            System.out.println("Introduce tu movimiento!");
+            System.out.print("Introduce la fila ");
+            xc = sc.nextInt();
+            System.out.print("Introduce la columna ");
+            yc = sc.nextInt();
+            System.out.println("");
+              
+              if ((xc < fila && yc < columna) && (xc > 0 && yc > 0)) {
+                valid = true;
+            } else {
+                valid = false;
+                }
+              
+            }
+        }catch (Exception a){
+            System.out.println("INTENTALO DE NUEVO ");
+        }
     }
-    
      public static void recursivvoltear(int f, int d) {
         int vec0 = xc;
         int vec1 = yc;
@@ -290,13 +352,23 @@ switch(opcion){
             }
         }
         if (contador == ganador) {
-            System.out.println("congruletions you won!!!");
+            System.out.println("congratuletions you won!!!");
             fin = true;
         }else if (tabla[vec0][vec1] == '*') {
             fin = true;
             System.out.println("¡¡¡Game Over!!!");
             System.out.println("");
-        }
-    }
-    
+            
+            System.out.println("-----------------");
+               System.out.println(" Solucionario!!!\n");
+               for(int a=1;a<fila;a++){
+                   System.out.println("");
+                 for(int b=1;b<columna;b++){
+                   System.out.print("[ "+tabla[a][b]+" ]");
+            
+                 } 
+           
+            }   
+        }     
+     }
 }
