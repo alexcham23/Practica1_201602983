@@ -24,7 +24,7 @@ public class principal {
     public static boolean ciclo = false;
    
     public static void main(String[] args){
-        int contador=0;
+       
         intro();
         while (!ciclo){
             contador=0;
@@ -130,7 +130,7 @@ switch(opcion){
        for (int i = 1; i < length; i++) {
             if (i == 1) {
                 System.out.println("");
-                System.out.println("---------------------------------");
+                System.out.println("---------------------");
             }
             System.out.printf("");
             for (int j = 1; j < length0; j++) {
@@ -220,6 +220,9 @@ switch(opcion){
                    System.out.println("");
                  for(int b=0;b<columna;b++){
                    System.out.print("[  "+tabla[a][b]+"  ]");
+                     System.out.println("");
+                     System.out.println("");
+                     System.out.println("-------------------");
             }
         }
     }
@@ -282,9 +285,9 @@ switch(opcion){
             
                boolean valid = false;
         while (!valid) {
-            System.out.println("  ingrese numero (n,m)  entre 1 y "+fila+" ");
+            System.out.println("  ingrese numero (n,m) desder 1 en adelante  ");
                seleccion=scan.nextLine();
-               seleccion.replaceAll(" " , " ");
+               seleccion.replaceAll("","");
               
                xc=Integer.parseInt(""+seleccion.charAt(0));
               yc=Integer.parseInt(""+seleccion.charAt(seleccion.length()-1));
@@ -364,8 +367,8 @@ switch(opcion){
                for(int a=1;a<fila;a++){
                    System.out.println("");
                  for(int b=1;b<columna;b++){
-                   System.out.print("[ "+tabla[a][b]+" ]");
-            
+                   System.out.print("["+tabla[a][b]+"]");
+                     
                  } 
            
             }   
